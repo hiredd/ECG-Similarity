@@ -25,7 +25,7 @@ for i =1:length(dataNumber) %
         if isStrMatrixContain(allRRType, char(rrType(j)))
             for k =1:lenOfRRType
                 if allRRType(k) == char(rrType(j))  && curCnt(i, k)<tampletWaveCntEveryFile(i, k)
-                    if anoData(j) - anoData(j-1) >750 || anoData(j+1)-anoData(j)>750 %
+                    if rrNumber(j) - rrNumber(j-1) >750 || rrNumber(j+1)-rrNumber(j)>750 %
                          continue;
                     end
                     curCnt(i, k)=curCnt(i, k)+1;
