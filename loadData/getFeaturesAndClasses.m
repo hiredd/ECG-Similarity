@@ -13,7 +13,7 @@ lenOfAllRRType = length(tampletWaves(:,1));
 features = zeros(length(rrNumber)-2, lenOfAllRRType*7);
 widthOfQR = 20;
 if isSvdb
-    widthOfQR = widthOfQR/(360/128);
+    widthOfQR = ceil(widthOfQR/(360/128));
 end
 
 countOfEachTmp = ceil(length(tampletWaves(1,:))/2);

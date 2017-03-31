@@ -1,1 +1,1 @@
-[features, classes] = getFeaturesAndClasses(104, tampletWaves);
+[features, classes] = getFeaturesAndClasses(800, tampletWaves,1);
