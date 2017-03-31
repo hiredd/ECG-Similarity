@@ -1,9 +1,10 @@
 fileNumber = getAllFileNumber();
-
+% fileNumber = getAllSvdbFileNumber();
 %% ¼ÆÊý
 rrTypeMap = containers.Map();
 for i =1:length(fileNumber)
    [intervalTime, rrType] = loadRRFile(fileNumber(i));
+%    [intervalTime, rrType] = loadRRFileSvdb(fileNumber(i));
     for j=1:length(rrType)
         rrTypeVal = rrType(j);
         rrTypeVal = char(rrTypeVal);

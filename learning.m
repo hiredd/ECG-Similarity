@@ -1,16 +1,15 @@
 %% Load Data for Classification
-allDataFile = getAllFileNumber();
+allDataFile = getAllSvdbFileNumber();
 lenOfRRType = length(tampletWaves(:,1));
-X = zeros(0, 7*lenOfRRType);
-Y = cell(0, 1);
+% X = zeros(0, 7*lenOfRRType);
+% Y = cell(0, 1);
 % lenOfDataNum = length(aSetOfdataNumber);
 lenOfDataNum = length(allDataFile);
 Features = cell(lenOfDataNum, 1);
 Classes = cell(lenOfDataNum, 1);
-loadCnt = 0;
 parfor i =1:lenOfDataNum%
-    loadCnt = loadCnt + 1
-    [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves);
+    display(i)
+    [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves, 1);
     Features{i} = features;
     Classes{i} = classes;
 %     X = [X; features];

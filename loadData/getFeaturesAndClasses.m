@@ -1,12 +1,21 @@
-function [ features, classes ] = getFeaturesAndClasses( dataNumber, tampletWaves )
+function [ features, classes ] = getFeaturesAndClasses( dataNumber, tampletWaves,isSvdb )
 % 得到一个波形文件的特征以及类别
-[rrNumber, rrType, ~] = loadRRFile(dataNumber);
-[waveData, ~] = loadDatFile(dataNumber);
+if isSvdb
+    [rrNumber, rrType, ~] = loadRRFileSvdb(dataNumber);
+    [waveData, ~] = loadDatFileSvdb(dataNumber);
+else
+    [rrNumber, rrType, ~] = loadRRFile(dataNumber);
+    [waveData, ~] = loadDatFile(dataNumber);
+end
 classes = rrType(2 : length(rrType)- 1)';
 lenOfAllRRType = length(tampletWaves(:,1));
 %特征为每种类别的波形7个特征，5个位dtw，2个为长度
 features = zeros(length(rrNumber)-2, lenOfAllRRType*7);
 widthOfQR = 20;
+if isSvdb
+    widthOfQR = widthOfQR/(360/128);
+end
+
 countOfEachTmp = ceil(length(tampletWaves(1,:))/2);
 for i =2:(length(rrNumber)-1)
     lLen = (rrNumber(i) - rrNumber(i-1))/2;
@@ -16,6 +25,10 @@ for i =2:(length(rrNumber)-1)
     rLen = (rrNumber(i+1)-rrNumber(i))/2;
     r1wave = waveData(rrNumber(i)+widthOfQR : rrNumber(i) + ceil((rrNumber(i+1)-rrNumber(i))/2));
     r2wave = waveData(rrNumber(i) + ceil((rrNumber(i+1)-rrNumber(i))/2) : rrNumber(i+1));
+    if isSvdb
+        lLen = lLen *(360/128);
+        rLen= rLen*(360/128);
+    end
     for j=1:lenOfAllRRType
         for k=1:countOfEachTmp
             rindex = tampletWaves{j, countOfEachTmp+k};
