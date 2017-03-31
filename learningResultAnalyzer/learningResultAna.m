@@ -25,4 +25,4 @@ b = bar([learningResult(:, 3) 1-learningResult(:, 3)], 'stacked');
 % plot(learningResult(:, 1));
 % hold on
 % plot(learningResult(:, 2));
-% set(gca,'XTickLabel',labels);
+set(gca,'XTickLabel',order);

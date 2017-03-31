@@ -1,0 +1,24 @@
+features = zero(0, 
+typeMap = containers.Map();
+allRRType = getAllRRType();
+for i=1:length(allRRType)
+    typeMap(typeMap(i)) = 0;
+end
+for i=1:length(X)
+    classVal = char(Y(i));
+    cnt = typeMap(classVal);
+    
+end
+for i =1:length(anoFilesNumber)
+    [anoData, anoType] = loadAtrFile(anoFilesNumber(i));
+    for j=1:length(anoType)
+        anoTypeVal = anoType(j);
+        anoTypeVal = char(anoTypeVal);
+        if isKey(anoTypeMap, anoTypeVal)
+            count = anoTypeMap(anoTypeVal) + 1;
+        else
+            count = 1;
+        end
+        anoTypeMap(anoTypeVal) =count;
+    end
+end
