@@ -1,6 +1,6 @@
 function [ waveData, origWaveData ] = loadDatFile( datNumber )
 %加载一个dat文件
-filename = fullfile('C:\Users\ZYC\Documents\MATLAB\ECG-1', 'data', 'dattf', [num2str(datNumber), '.dat']);
+filename = fullfile('data', 'dattf', [num2str(datNumber), '.dat']);
 fileID = fopen(filename, 'r');
 C = textscan(fileID, '%s %f %f');
 origWaveData = C{2};

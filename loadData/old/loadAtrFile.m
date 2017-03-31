@@ -1,6 +1,6 @@
 function [ anoData, anoType, numberOfAno] = loadAtrFile( dataNumber )
 %% ÔØÈë×¢ÊÍÎÄ¼ş
-filename = fullfile('C:\Users\ZYC\Documents\MATLAB\ECG-1', 'data', 'atrtf', [num2str(dataNumber), '.atr']);
+filename = fullfile('./', 'data', 'atrtf', [num2str(dataNumber), '.atr']);
 fileID = fopen(filename);
 anoData = textscan(fileID, '%s %d %s %d %d %d %s');
 anoType = anoData{3};

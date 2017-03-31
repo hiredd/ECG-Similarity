@@ -1,16 +1,16 @@
-heartBeatType = getheartBeatType();
-lenOfHeartBeatType = length(heartBeatType);
-countOfEachTmp = 10; %每种类别的模板数量
-tampletWaves = cell(lenOfHeartBeatType, 2*countOfEachTmp);
-curCountOfTampW = ones(lenOfHeartBeatType, 1);
+allRRType = getAllRRType();
+lenOfRRType = length(allRRType);
+countOfEachTmp = 4; %每种类别的模板数量
+tampletWaves = cell(lenOfRRType, 2*countOfEachTmp);
+%curCountOfTampW = ones(lenOfRRType, 1);
 dataNumber = getAllFileNumber();
 tampletWaveCntEveryFile = getTampletWaveCntEveryFile(countOfEachTmp);
 curCnt = zeros(length(tampletWaveCntEveryFile(:, 1)), length(tampletWaveCntEveryFile(1, :)));
-tampletWavesIndex = ones(lenOfHeartBeatType, 1);
+tampletWavesIndex = ones(lenOfRRType, 1);
 for i =1:length(dataNumber) %
     display(i);%
     hasFindAll = 1;
-    for j = 1:lenOfHeartBeatType
+    for j = 1:lenOfRRType
         if curCnt(i, j) ~=tampletWaveCntEveryFile(i, j)
             hasFindAll = 0;
             break;
@@ -19,18 +19,18 @@ for i =1:length(dataNumber) %
     if hasFindAll
         continue;
     end
-    [anoData, anoType, numberOfAno] = loadAtrFile(dataNumber(i));
+    [rrNumber, rrType, ~] = loadRRFile(dataNumber(i));
     [waveData, ~] = loadDatFile(dataNumber(i));
-    for j=3: length(anoType)-2
-        if isStrMatrixContain(heartBeatType, char(anoType(j)))
-            for k =1:lenOfHeartBeatType
-                if heartBeatType(k) == char(anoType(j))  && curCnt(i, k)<tampletWaveCntEveryFile(i, k)
+    for j=2: length(rrType)-1
+        if isStrMatrixContain(allRRType, char(rrType(j)))
+            for k =1:lenOfRRType
+                if allRRType(k) == char(rrType(j))  && curCnt(i, k)<tampletWaveCntEveryFile(i, k)
                     if anoData(j) - anoData(j-1) >750 || anoData(j+1)-anoData(j)>750 %
                          continue;
                     end
                     curCnt(i, k)=curCnt(i, k)+1;
-                    tampletWaves{k, tampletWavesIndex(k)} =waveData(anoData(j-1):anoData(j+1));
-                    tampletWaves{k, countOfEachTmp+tampletWavesIndex(k)} = anoData(j) - anoData(j-1) +1;
+                    tampletWaves{k, tampletWavesIndex(k)} =waveData(rrNumber(j-1):rrNumber(j+1));
+                    tampletWaves{k, countOfEachTmp+tampletWavesIndex(k)} = rrNumber(j) - rrNumber(j-1) +1;
                     tampletWavesIndex(k) = tampletWavesIndex(k)+1;
                     break;
                 end
@@ -38,7 +38,7 @@ for i =1:length(dataNumber) %
         end
     end
 end
-for i=1:lenOfHeartBeatType
+for i=1:lenOfRRType
     for j=2:countOfEachTmp
         if isempty(tampletWaves{i, j})
             tampletWaves{i, j} = tampletWaves{i, j-1};
