@@ -8,11 +8,10 @@ lenOfAllRRType = length(tampletWaves(:,1));
 features = zeros(length(rrNumber)-2, lenOfAllRRType*7);
 widthOfQR = 20;
 countOfEachTmp = ceil(length(tampletWaves(1,:))/2);
-for i =2:length(rrNumber)-1
+for i =2:(length(rrNumber)-1)
     lLen = (rrNumber(i) - rrNumber(i-1))/2;
     l1wave = waveData(rrNumber(i-1) : rrNumber(i-1) + ceil((rrNumber(i) - rrNumber(i-1))/2));
     l2wave = waveData( rrNumber(i-1) + ceil((rrNumber(i) - rrNumber(i-1))/2) : rrNumber(i)-widthOfQR);
-    l2Len = (rrNumber(i) - rrNumber(i-1))/2;
     midwave = waveData(rrNumber(i)-widthOfQR : rrNumber(i) + widthOfQR);
     rLen = (rrNumber(i+1)-rrNumber(i))/2;
     r1wave = waveData(rrNumber(i)+widthOfQR : rrNumber(i) + ceil((rrNumber(i+1)-rrNumber(i))/2));
@@ -38,6 +37,20 @@ for i =2:length(rrNumber)-1
         end
     end
 end
+%%过滤掉不使用的类别
+allRRType = getAllRRType();
+i = 1;
+while i <= length(classes)
+    typeVal = char(classes(i));
+    if ~isStrMatrixContain(allRRType, typeVal)
+        classes(i, :) = [];
+        features(i, :) = [];
+    else
+        i = i+1;
+    end
+end
+unique(classes)
+%% 归一化处理
 features = scallingMatric(features);
 end
 

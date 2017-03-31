@@ -10,12 +10,13 @@ accuracy = accuracyNumCnt / sum(sum(confmat1))
 % HeatMap(confmat1, 'Annotate', 1, 'ColumnLabels',order, 'RowLabels', order);
 % i = 1;
 % while i <=length(learningResult)
-%     if sum(confmat1(i, :))<=100
+%     if sum(learningResult(i))<=50
 %         learningResult(i, :) = [];
+%     else
+%         i = i+1;
 %     end
-%      i = i+1;
 % end
-figure(1)
+% figure(1)
 b = bar([learningResult(:, 3) 1-learningResult(:, 3)], 'stacked');
 % for i=1:length(learningResult)
 %     text(i-0.05, 1.05, labels(i));

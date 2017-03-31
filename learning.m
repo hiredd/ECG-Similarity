@@ -7,8 +7,9 @@ Y = cell(0, 1);
 lenOfDataNum = length(allDataFile);
 Features = cell(lenOfDataNum, 1);
 Classes = cell(lenOfDataNum, 1);
-parfor i =1:2%
-    display(i);%
+loadCnt = 0;
+parfor i =1:lenOfDataNum%
+    loadCnt = loadCnt + 1
     [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves);
     Features{i} = features;
     Classes{i} = classes;
