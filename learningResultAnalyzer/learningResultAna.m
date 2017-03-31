@@ -6,7 +6,7 @@ for i=1:length(confmat1)
     learningResult(i, 3) = learningResult(i ,1) / sum(confmat1(i, :));
     accuracyNumCnt = accuracyNumCnt +confmat1(i, i);
 end
- accuracy = accuracyNumCnt / sum(sum(confmat1))
+accuracy = accuracyNumCnt / sum(sum(confmat1))
 % HeatMap(confmat1, 'Annotate', 1, 'ColumnLabels',order, 'RowLabels', order);
 % i = 1;
 % while i <=length(learningResult)
