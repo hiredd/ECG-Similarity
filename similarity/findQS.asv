@@ -1,0 +1,44 @@
+function [ qwaves, swaves ] = findRS( rrNumber,  waveData)
+%% 查找一个波群的QS波
+numOfR = length(rrNumber);
+qwaves = zeros(1, numOfR-2);
+swaves = zeros(1, numOfR-2);
+for i = 2 : numOfR-1
+    lRRLen = rrNumber(i) -rrNumber(i-1);
+    s_leftSection = rrNumber(i-1) + ceil(lRRLen/2);
+    leftSection = -waveData(s_leftSection, rrNumber(i));
+    rRRLen = rrNumber(i+1) - rrNumber(i);
+    e_rightSection = rrNumber + (rRRLen/2);
+    rightSection = -waveData(rrNumber(i), e_rightSection);
+    [~, leftPeaks] = findpeaks(leftSection);%
+    [~, rightPeaks] = findpeaks(rightSection);
+    %leftPeaks = leftPeaks(waveData(min_locs)>-0.5 & waveData(min_locs)<-0.2);
+    if isempty(rightPeaks) && i== length(rwaves)
+        % 如果尾部不完整，则去除尾部
+        qwaves = qwaves(1:length(qwaves)-1);
+        rwaves = rwaves(1:length(rwaves)-1);
+        swaves = swaves(1:length(swaves)-1);
+        continue;
+    end
+    if isempty(leftPeaks) && i==1
+        % 如果首部不完整，则去除首部
+        qwaves = qwaves(2:length(rwaves));
+        rwaves = rwaves(2:length(rwaves));
+        swaves = swaves(2:length(rwaves));
+        continue;
+    end
+    % 其它找不到波峰时的特殊处理
+    if isempty(leftPeaks)
+        qwaves(i) = 25+s_leftSection;
+    else
+        qwaves(i) = leftPeaks(length(leftPeaks))+s_leftSection -1;
+    end
+    if isempty(rightPeaks)
+        swaves(i) = 25+s_rightSection;
+    else
+        swaves(i) = rightPeaks(1)+s_rightSection-1;
+    end
+end
+end
+
+
