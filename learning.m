@@ -1,28 +1,30 @@
 %% Load Data for Classification
-allDataFile = getAllSvdbFileNumber();
-lenOfRRType = length(tampletWaves(:,1));
-% X = zeros(0, 7*lenOfRRType);
-% Y = cell(0, 1);
-% lenOfDataNum = length(aSetOfdataNumber);
-lenOfDataNum = length(allDataFile);
-Features = cell(lenOfDataNum, 1);
-Classes = cell(lenOfDataNum, 1);
-parfor i =1:lenOfDataNum%
-    display(i)
-    [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves, 1);
-    Features{i} = features;
-    Classes{i} = classes;
-%     X = [X; features];
-%     Y = [Y; classes];
+if ~exist('X','var')
+    if ~exist('tampletWaves', 'var')
+        loadTampletWaves();
+    end
+    allDataFile = getAllFileNumber();
+    lenOfRRType = length(tampletWaves(:,1));
+    X = zeros(0, 7*lenOfRRType);
+    Y = cell(0, 1);
+    % lenOfDataNum = length(aSetOfdataNumber);
+    lenOfDataNum = length(allDataFile);
+    Features = cell(lenOfDataNum, 1);
+    Classes = cell(lenOfDataNum, 1);
+    parfor i =1:lenOfDataNum%
+        display(i)
+        [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves, 0);
+        Features{i} = features;
+        Classes{i} = classes;
+    end
+    for i=1:lenOfDataNum
+        features = Features{i};
+        classes = Classes{i};
+        X = [X; features];
+        Y = [Y; classes];
+    end
 end
-for i=1:lenOfDataNum
-    features = Features{i};
-    classes = Classes{i};
-    X = [X; features];
-    Y = [Y; classes];
-end
-% X = features;
-% Y = classes;
+reduceData;
 %% Partition 70% of the Data into a Training Set and 30% into a Test Set
 cv = cvpartition(Y,'holdout',0.3);
 Xtrain = X(training(cv),:);
