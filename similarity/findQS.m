@@ -1,35 +1,43 @@
 function [ qwaves, swaves ] = findQS( rrNumber,  waveData)
-%% 查找一个波群的QS波
+%% 查找一个波群的在R波两端的平坡起点
 numOfR = length(rrNumber);
 qwaves = zeros(1, numOfR);
 swaves = zeros(1, numOfR);
-qMissingCnt = 0;
-sMissingCnt = 0;
-for i = 2 : numOfR-1
-    lRRLen = rrNumber(i) -rrNumber(i-1);
-    s_leftSection = rrNumber(i-1) + ceil(lRRLen/2);
-    leftSection = -waveData(s_leftSection : rrNumber(i));
-    rRRLen = rrNumber(i+1) - rrNumber(i);
-    e_rightSection = rrNumber(i) + ceil(rRRLen/2);
-    rightSection = -waveData(rrNumber(i) : e_rightSection);
-    [~, leftPeaks] = findpeaks(leftSection);
-    [~, rightPeaks] = findpeaks(rightSection);
-    %leftPeaks = leftPeaks(waveData(min_locs)>-0.5 & waveData(min_locs)<-0.2);
-    if isempty(leftPeaks)
-        qwaves(i) = 25+s_leftSection; %25的值需要根据实验结果来确定
-        qMissingCnt = qMissingCnt + 1;
-    else
-        qwaves(i) = leftPeaks(length(leftPeaks))+s_leftSection -1;
+minLenOfQRS = 5;
+maxLenOfQRS = 35;
+lenOfwindow = 10;
+for i = 1 : numOfR
+    %% 寻找左右平滑点
+    searchLen = maxLenOfQRS - minLenOfQRS +1;
+    lVar = zeros(searchLen, 1);
+    rVar = zeros(searchLen, 1);
+    for j=1:searchLen
+        if i~=0
+            startPoint = rrNumber(i)-minLenOfQRS-j;
+            lVar(j) = var(waveData(startPoint - lenOfwindow: startPoint));
+        end
+        if i~=searchLen
+            startPoint = rrNumber(i)+minLenOfQRS+j;
+            rVar(j) = var(waveData(startPoint: startPoint + lenOfwindow));
+        end
     end
-    if isempty(rightPeaks)
-        swaves(i) = 25+rrNumber(i);
-        sMissingCnt = sMissingCnt + 1;
-    else
-        swaves(i) = rightPeaks(1)+rrNumber(i)-1;
+    minLVar = realmax;
+    minLIndex = -1;
+    minRVar = realmax;
+    minRIndex = -1;
+    for j=1:searchLen
+        if minLVar > lVar(j)
+            minLVar = lVar(j);
+            minLIndex = j;
+        end
+        if minRVar > lVar(j)
+            minRVar = lVar(j);
+            minRIndex = j;
+        end
     end
+    qwaves(i) = rrNumber(i) - minLenOfQRS -minLIndex;
+    swaves(i) = rrNumber(i) + minLenOfQRS + minRIndex;
 end
-display(['未找到的Q波：' num2str(qMissingCnt)]);
-display(['未找到的S波：'  num2str(sMissingCnt)]);
 end
 
 

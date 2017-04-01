@@ -9,8 +9,8 @@
 % end
 %% 分析QR段和RS段长度
 allFileNumber = getAllFileNumber();
-qrCounter = ones(100);
-rsCounter = ones(100);
+qrCounter = ones(20,1);
+rsCounter = ones(20,1);
 for i=1:length(allFileNumber)
     dataNumber = allFileNumber(i);
     [waveData, ~] = loadDatFile(dataNumber);
@@ -18,12 +18,16 @@ for i=1:length(allFileNumber)
     [qwaves, swaves] = findQS(rrNumber, waveData);
     for j=2:length(rrNumber)-1
         qrLen = rrNumber(j)-qwaves(j);
-        qrIndex = floor(qrLen);
-        qrCnt = qrCounter(qrIndex)+1;
-        qrCounter(qrIndex) = qrCnt;
+        if ~qrLen==0
+            qrIndex = floor(qrLen);
+            qrCnt = qrCounter(qrIndex)+1;
+            qrCounter(qrIndex) = qrCnt;
+        end
         rsLen = swaves(j)-rrNumber(j);
-        rsIndex = floor(rsLen);
-        rsCnt = qrCounter(rsIndex)+1;
-        rsCounter(qrIndex) = rsCnt;
+        if ~rsLen==0            
+            rsIndex = floor(rsLen);
+            rsCnt = qrCounter(rsIndex)+1;
+            rsCounter(qrIndex) = rsCnt;
+        end
     end
 end

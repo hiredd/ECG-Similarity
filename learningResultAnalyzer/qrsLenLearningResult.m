@@ -1,0 +1,1 @@
+learningResultAnaly(qrconfmat,qrorder)

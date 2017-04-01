@@ -5,7 +5,7 @@ if ~exist('X','var')
     end
     allDataFile = getAllFileNumber();
     lenOfRRType = length(tampletWaves(:,1));
-    X = zeros(0, 7*lenOfRRType);
+    X = zeros(0, 5*lenOfRRType);
     Y = cell(0, 1);
     % lenOfDataNum = length(aSetOfdataNumber);
     lenOfDataNum = length(allDataFile);
@@ -24,7 +24,7 @@ if ~exist('X','var')
         Y = [Y; classes];
     end
 end
-%reduceData;
+reduceData;
 %% Partition 70% of the Data into a Training Set and 30% into a Test Set
 cv = cvpartition(Y,'holdout',0.3);
 Xtrain = X(training(cv),:);

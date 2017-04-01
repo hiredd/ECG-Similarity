@@ -1,13 +1,13 @@
 allRRType = getAllRRType();
 lenOfRRType = length(allRRType);
 countOfEachTmp = 10; %每种类别的模板数量
-tampletWaves = cell(lenOfRRType, 2*countOfEachTmp);
+tampletWaves = cell(lenOfRRType, 3*countOfEachTmp);
 %curCountOfTampW = ones(lenOfRRType, 1);
 dataNumber = getAllFileNumber();
 tampletWaveCntEveryFile = getTampletWaveCntEveryFile(countOfEachTmp);
 curCnt = zeros(length(tampletWaveCntEveryFile(:, 1)), length(tampletWaveCntEveryFile(1, :)));
 tampletWavesIndex = ones(lenOfRRType, 1);
-for i =1:length(dataNumber) %
+for i =1:length(dataNumber) 
     display(i);%
     hasFindAll = 1;
     for j = 1:lenOfRRType
@@ -21,7 +21,8 @@ for i =1:length(dataNumber) %
     end
     [rrNumber, rrType, ~] = loadRRFile(dataNumber(i));
     [waveData, ~] = loadDatFile(dataNumber(i));
-    for j=2: length(rrType)-1
+    [qwaves, swaves] = findQS(rrNumber, waveData);
+    for j=3: length(rrType)-2
         if isStrMatrixContain(allRRType, char(rrType(j)))
             for k =1:lenOfRRType
                 if allRRType(k) == char(rrType(j))  && curCnt(i, k)<tampletWaveCntEveryFile(i, k)
@@ -29,8 +30,9 @@ for i =1:length(dataNumber) %
                          continue;
                     end
                     curCnt(i, k)=curCnt(i, k)+1;
-                    tampletWaves{k, tampletWavesIndex(k)} =waveData(rrNumber(j-1):rrNumber(j+1));
-                    tampletWaves{k, countOfEachTmp+tampletWavesIndex(k)} = rrNumber(j) - rrNumber(j-1) +1;
+                    tampletWaves{k, 3*(tampletWavesIndex(k)-1)+1} =waveData(swaves(j-1):qwaves(j));
+                    tampletWaves{k, 3*(tampletWavesIndex(k)-1)+2} =waveData(qwaves(j):swaves(j));
+                    tampletWaves{k, 3*(tampletWavesIndex(k)-1)+3} =waveData(swaves(j):qwaves(j+1));
                     tampletWavesIndex(k) = tampletWavesIndex(k)+1;
                     break;
                 end
@@ -40,9 +42,10 @@ for i =1:length(dataNumber) %
 end
 for i=1:lenOfRRType
     for j=2:countOfEachTmp
-        if isempty(tampletWaves{i, j})
-            tampletWaves{i, j} = tampletWaves{i, j-1};
-            tampletWaves{i, countOfEachTmp+j} = tampletWaves{i, countOfEachTmp+j-1}
+        if isempty(tampletWaves{i, (j-1)*3+1})
+            tampletWaves{i, (j-1)*3+1} = tampletWaves{i, (j-2)*3+1};
+            tampletWaves{i, (j-1)*3+2} = tampletWaves{i, (j-2)*3+1};
+            tampletWaves{i, (j-1)*3+3} = tampletWaves{i, (j-2)*3+3};
         end
     end
 end
