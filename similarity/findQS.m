@@ -1,8 +1,8 @@
 function [ qwaves, swaves ] = findQS( rrNumber,  waveData)
 %% 查找一个波群的QS波
 numOfR = length(rrNumber);
-qwaves = zeros(1, numOfR-2);
-swaves = zeros(1, numOfR-2);
+qwaves = zeros(1, numOfR);
+swaves = zeros(1, numOfR);
 qMissingCnt = 0;
 sMissingCnt = 0;
 for i = 2 : numOfR-1
@@ -15,7 +15,6 @@ for i = 2 : numOfR-1
     [~, leftPeaks] = findpeaks(leftSection);
     [~, rightPeaks] = findpeaks(rightSection);
     %leftPeaks = leftPeaks(waveData(min_locs)>-0.5 & waveData(min_locs)<-0.2);
-    % 其它找不到波峰时的特殊处理
     if isempty(leftPeaks)
         qwaves(i) = 25+s_leftSection; %25的值需要根据实验结果来确定
         qMissingCnt = qMissingCnt + 1;
