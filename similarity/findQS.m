@@ -3,40 +3,45 @@ function [ qwaves, swaves ] = findQS( rrNumber,  waveData)
 numOfR = length(rrNumber);
 qwaves = zeros(1, numOfR);
 swaves = zeros(1, numOfR);
-minLenOfQRS = 5;
-maxLenOfQRS = 35;
 lenOfwindow = 10;
 for i = 1 : numOfR
-    %% Ñ°ÕÒ×óÓÒÆ½»¬µã
-    searchLen = maxLenOfQRS - minLenOfQRS +1;
-    lVar = zeros(searchLen, 1);
-    rVar = zeros(searchLen, 1);
-    for j=1:searchLen
-        if i~=1
-            startPoint = rrNumber(i)-minLenOfQRS-j;
-            lVar(j) = var(waveData(startPoint - lenOfwindow: startPoint));
+    if i ~= 1
+        lSearchLen = ceil((rrNumber(i) - rrNumber(i-1))/2);
+        lVar = zeros(lSearchLen, 1);
+        for j=1 : lSearchLen
+                startPoint = rrNumber(i)-j;
+                lVar(j) = var(waveData(startPoint - lenOfwindow: startPoint));
         end
-        if i~=searchLen
-            startPoint = rrNumber(i)+minLenOfQRS+j;
-            rVar(j) = var(waveData(startPoint: startPoint + lenOfwindow));
+        minLVar = realmax;
+        minLIndex = -1;
+        for j = 1 : lSearchLen
+            if minLVar > lVar(j)
+                minLVar = lVar(j);
+                minLIndex = j;
+            end
         end
+        qwaves(i) = rrNumber(i)  - minLIndex;
     end
-    minLVar = realmax;
-    minLIndex = -1;
-    minRVar = realmax;
-    minRIndex = -1;
-    for j=1:searchLen
-        if minLVar > lVar(j)
-            minLVar = lVar(j);
-            minLIndex = j;
+end
+
+for i = 1 : numOfR
+    if i ~= numOfR
+        rSearchLen = ceil((rrNumber(i+1) - rrNumber(i))/2);
+        rVar = zeros(rSearchLen, 1);
+        for j=1 : rSearchLen
+                startPoint = rrNumber(i) + j;
+                rVar(j) = var(waveData(startPoint : startPoint + lenOfwindow));
         end
-        if minRVar > lVar(j)
-            minRVar = lVar(j);
-            minRIndex = j;
+        minRVar = realmax;
+        minRIndex = -1;
+        for j = 1 : rSearchLen
+            if minRVar > rVar(j)
+                minRVar = rVar(j);
+                minRIndex = j;
+            end
         end
+        swaves(i) = rrNumber(i)  + minRIndex;
     end
-    qwaves(i) = rrNumber(i) - minLenOfQRS -minLIndex;
-    swaves(i) = rrNumber(i) + minLenOfQRS + minRIndex;
 end
 end
 

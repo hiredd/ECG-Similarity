@@ -32,9 +32,14 @@ resultMatrixY = cell2mat(resultMatrixY);
 allIntervalTime = zeros(100, 1);
 for i=1:length(fileNumber)
     [rrNumber, rrType, rrintervalTime] = loadRRFile(fileNumber(i));
-    for j=2:length(rrNumber)-1
-        index = ceil(rrintervalTime(j)*10);
+    for j=2:length(intervalTime)-1
+        index = ceil(intervalTime(j)*10);
         cnt = allIntervalTime(index) + 1;
         allIntervalTime(index) = cnt;
+    end
+    for j=2:length(intervalTime)-1
+        index = abs(ceil(intervalTime(j)-intervalTime(j-1)*100));
+        cnt = allIntervalDifTime(index) +1;
+        allIntervalDifTime(index) = cnt;
     end
 end
