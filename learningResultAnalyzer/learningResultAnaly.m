@@ -1,14 +1,13 @@
-function [] = learningResultAnaly( confmat,order )
-learningResult = zeros(length(confmat), 3);
+learningResult = zeros(length(confmat1), 3);
 accuracyNumCnt = 0;
-for i=1:length(confmat)
-    learningResult(i, 1) = confmat(i, i);
-    learningResult(i, 2) = sum(confmat(i, :)) -confmat(i, i);
-    learningResult(i, 3) = learningResult(i ,1) / sum(confmat(i, :));
-    accuracyNumCnt = accuracyNumCnt +confmat(i, i);
+for i=1:length(confmat1)
+    learningResult(i, 1) = confmat1(i, i);
+    learningResult(i, 2) = sum(confmat1(i, :)) -confmat1(i, i);
+    learningResult(i, 3) = learningResult(i ,1) / sum(confmat1(i, :));
+    accuracyNumCnt = accuracyNumCnt +confmat1(i, i);
 end
-accuracy = accuracyNumCnt / sum(sum(confmat))
-% HeatMap(confmat, 'Annotate', 1, 'ColumnLabels',order, 'RowLabels', order);
+accuracy = accuracyNumCnt / sum(sum(confmat1))
+% HeatMap(confmat1, 'Annotate', 1, 'ColumnLabels',order, 'RowLabels', order);
 % i = 1;
 % while i <=length(learningResult)
 %     if sum(learningResult(i))<=50
@@ -27,5 +26,4 @@ b = bar([learningResult(:, 3) 1-learningResult(:, 3)], 'stacked');
 % hold on
 % plot(learningResult(:, 2));
 set(gca,'XTickLabel',order);
-end
 

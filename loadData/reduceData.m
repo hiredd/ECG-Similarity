@@ -14,5 +14,7 @@ for i=1:length(X)
         typeMap(classVal) = cnt +1;
     end
 end
+XCopy = X;
+YCopy = Y;
 X = features;
 Y = classes;

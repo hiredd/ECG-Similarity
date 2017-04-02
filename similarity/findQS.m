@@ -12,7 +12,7 @@ for i = 1 : numOfR
     lVar = zeros(searchLen, 1);
     rVar = zeros(searchLen, 1);
     for j=1:searchLen
-        if i~=0
+        if i~=1
             startPoint = rrNumber(i)-minLenOfQRS-j;
             lVar(j) = var(waveData(startPoint - lenOfwindow: startPoint));
         end
