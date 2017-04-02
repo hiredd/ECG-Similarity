@@ -1,11 +1,16 @@
 allFileNumber = getAllFileNumber();
-for i=1:length(allFileNumber)/10
-    dataNumber = allFileNumber(i);
-    display(['文件号：' num2str(dataNumber)]);
-    [waveData, ~] = loadDatFile(dataNumber);
-    [rrNumber, ~, ~] = loadRRFile(dataNumber);
-    [qwaves, swaves] = findQS(rrNumber, waveData);
-end
+% parfor i=1:length(allFileNumber)
+%     dataNumber = allFileNumber(i);
+%     display(['文件号：' num2str(dataNumber)]);
+%     [waveData, ~] = loadDatFile(dataNumber);
+%     [rrNumber, ~, ~] = loadRRFile(dataNumber);
+%     [qwaves, swaves] = findQS(rrNumber, waveData);
+%     for j=2:length(qwaves)
+%         if swaves(j-1)>qwaves(j)
+%             error('qs查找错误');
+%         end
+%     end
+% end
 dataNumber = 102;
 [waveData, ~] = loadDatFile(dataNumber);
 [rrNumber, ~, ~] = loadRRFile(dataNumber);
@@ -14,7 +19,7 @@ hold on;
 plot(waveData);
 lenOfRR = length(rrNumber);
 plot(qwaves(1:lenOfRR), waveData(qwaves(1:lenOfRR)), 'rx','MarkerFaceColor', 'g')
-plot(rrNumber, waveData(rrNumber), 'rv','MarkerFaceColor', 'r')
+plot(rrNumber, waveData(rrNumber), 'bv','MarkerFaceColor', 'y')
 plot(swaves(1:lenOfRR), waveData(swaves(1:lenOfRR)), 'rx', 'MarkerFaceColor', 'g')
 grid on;
 legend('ECG Signal', 'Q-waves', 'R-waves', 'S-waves');

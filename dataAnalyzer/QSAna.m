@@ -1,16 +1,20 @@
-%% 分析每个文件中Q和S波群漏检率
-% allFileNumber = getAllFileNumber();
-% for i=1:length(allFileNumber)
+%% 分析每个文件中Q和S波查找是否错误
+allFileNumber = getAllFileNumber();
+% parfor i=1:length(allFileNumber)
 %     dataNumber = allFileNumber(i);
 %     display(['文件号：' num2str(dataNumber)]);
 %     [waveData, ~] = loadDatFile(dataNumber);
 %     [rrNumber, ~, ~] = loadRRFile(dataNumber);
 %     [qwaves, swaves] = findQS(rrNumber, waveData);
+%     for j=2:length(qwaves)
+%         if swaves(j-1)>qwaves(j)
+%             error('qs查找错误');
+%         end
+%     end
 % end
 %% 分析QR段和RS段长度
-allFileNumber = getAllFileNumber();
-qrCounter = ones(20,1);
-rsCounter = ones(20,1);
+qrCounter = ones(1000,1);
+rsCounter = ones(1000,1);
 for i=1:length(allFileNumber)
     dataNumber = allFileNumber(i);
     [waveData, ~] = loadDatFile(dataNumber);

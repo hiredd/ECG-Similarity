@@ -1,4 +1,4 @@
 allFileNumber = getAllFileNumber();
-fileNumber=  allFileNumber(29);
+fileNumber=  allFileNumber(46);
 [waveData, ~] = loadDatFile(fileNumber);
 plot(waveData);
