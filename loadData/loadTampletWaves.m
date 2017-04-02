@@ -1,6 +1,6 @@
 allRRType = getAllRRType();
 lenOfRRType = length(allRRType);
-countOfEachTmp = 2; %每种类别的模板数量
+countOfEachTmp = 10; %每种类别的模板数量
 tampletWaves = cell(lenOfRRType, 3*countOfEachTmp);
 %curCountOfTampW = ones(lenOfRRType, 1);
 dataNumber = getAllFileNumber();
