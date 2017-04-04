@@ -4,18 +4,19 @@ function [ features, classes ] = getFeaturesAndClasses( dataNumber, tampletWaves
 [waveData, ~] = loadDatFile(dataNumber);
 [qwaves, swaves] = findQS(rrNumber, waveData);
 classes = rrType(2 : length(rrType)- 1)';
-lenOfAllRRType = length(tampletWaves(:,1));
-%特征为每种类别的波形5个特征，3个为dtw，2个为长度
-features = zeros(length(rrNumber)-2, lenOfAllRRType*5);
-countOfEachTmp = length(tampletWaves(1,:))/3;
-for i =2:(length(rrNumber)-1)
+global NumOfRRType;
+global NumOfTamplet;
+% 特征为每种类别的波形5个特征，3个为dtw，2个为长度
+features = zeros(length(rrNumber)-2, NumOfRRType*5);
+display(['特征获取中...  文件号： ' num2str(dataNumber)]);
+for i =2:(length(rrNumber)-1)   
     lLen =rrNumber(i) - rrNumber(i-1);
-    lwave = waveData(swaves(i-1): qwaves(i));
-    midwave = waveData(qwaves(i):swaves(i));
-    rLen = rrNumber(i+1)-rrNumber(i);
-    rwave = waveData(swaves(i): qwaves(i+1));
-    for j=1:lenOfAllRRType
-        for k=1:countOfEachTmp
+    lwave = waveData(swaves(i-1) : qwaves(i));
+    midwave = waveData(qwaves(i) : swaves(i));
+    rLen = rrNumber(i+1) - rrNumber(i);
+    rwave = waveData(swaves(i) : qwaves(i+1));
+    for j=1 : NumOfRRType
+        for k=1 : NumOfTamplet
             temlwave = tampletWaves{j, (k-1)*3+1};
             temmidwave = tampletWaves{j, (k-1)*3+2};
             temrwave = tampletWaves{j, (k-1)*3+3};
@@ -27,12 +28,12 @@ for i =2:(length(rrNumber)-1)
         end
     end
 end
-%%过滤掉不使用的类别
-allRRType = getAllRRType();
+%% 过滤掉不使用的类别
+global AllRRType;
 i = 1;
 while i <= length(classes)
     typeVal = char(classes(i));
-    if ~isStrMatrixContain(allRRType, typeVal)
+    if ~isStrMatrixContain(AllRRType, typeVal)
         classes(i, :) = [];
         features(i, :) = [];
     else

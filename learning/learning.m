@@ -11,7 +11,7 @@ if ~exist('X','var')
     lenOfDataNum = length(allDataFile);
     Features = cell(lenOfDataNum, 1);
     Classes = cell(lenOfDataNum, 1);
-    parfor i =1:lenOfDataNum
+    parfor i =1:3%
         display(i)
         [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves);
         Features{i} = features;
