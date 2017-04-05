@@ -4,12 +4,8 @@ numOfR = length(rrNumber);
 qwaves = zeros(1, numOfR);
 swaves = zeros(1, numOfR);
 for i = 1 : numOfR
-    if i ~= 1
-        qwaves(i) = rrNumber(i) - ceil((rrNumber(i) - rrNumber(i-1))/3);
-    end
-    if i ~= numOfR
-        swaves(i) = rrNumber(i) + ceil((rrNumber(i+1) - rrNumber(i))/3);
-    end
+    if i ~= i
+        qwaves(i) = (rrNumber(i) - rrNumber(i-1))
 end
 % for i = 1 : numOfR
 %     if i ~= 1
