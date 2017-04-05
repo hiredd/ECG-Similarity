@@ -1,23 +1,21 @@
+loadGlobleVariable;
 %% Load Data for Classification
 if ~exist('X','var')
     if ~exist('tampletWaves', 'var')
         loadTampletWaves();
     end
-    allDataFile = getAllFileNumber();
-    lenOfRRType = length(tampletWaves(:,1));
-    X = zeros(0, 5*lenOfRRType);
+    X = zeros(0, 5*NumOfRRType);
     Y = cell(0, 1);
     % lenOfDataNum = length(aSetOfdataNumber);
-    lenOfDataNum = length(allDataFile);
-    Features = cell(lenOfDataNum, 1);
-    Classes = cell(lenOfDataNum, 1);
-    parfor i =1:3%
-        display(i)
-        [features, classes] = getFeaturesAndClasses(allDataFile(i), tampletWaves);
+    numOfFile = length(AllFileNumber);
+    Features = cell(numOfFile, 1);
+    Classes = cell(numOfFile, 1);
+    for i = 1 : numOfFile
+        [features, classes] = getFeaturesAndClasses(AllFileNumber(i), tampletWaves);
         Features{i} = features;
         Classes{i} = classes;
     end
-    for i=1:lenOfDataNum
+    for i=1 : numOfFile
         features = Features{i};
         classes = Classes{i};
         X = [X; features];
