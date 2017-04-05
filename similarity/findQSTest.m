@@ -1,16 +1,21 @@
-allFileNumber = getAllFileNumber();
-% parfor i =1 : length(allFileNumber)
-%     dataNumber = allFileNumber(i);
-%     display(['文件号：' num2str(dataNumber)]);
-%     [waveData, ~] = loadDatFile(dataNumber);
-%     [rrNumber, ~, ~] = loadRRFile(dataNumber);
-%     [qwaves, swaves] = findQS(rrNumber, waveData);
-%     for j=2:length(qwaves)
-%         if swaves(j-1)>qwaves(j)
-%             error('qs查找错误');
-%         end
-%     end
-% end
+for i =1 : length(AllFileNumber)
+    dataNumber = AllFileNumber(i);
+    display(['文件号：' num2str(dataNumber)]);
+    [waveData, ~] = loadDatFile(dataNumber);
+    [rrNumber, ~, ~] = loadRRFile(dataNumber);
+    [qwaves, swaves] = findQS(rrNumber, waveData);
+    for j=2:length(qwaves)-1
+        if swaves(j-1)>qwaves(j) 
+            error('qs查找错误');
+        end
+        lwaveLen = qwaves(j) - swaves(j-1);
+        midWaveLen = swaves(j) - qwaves(j);
+        rwaveLen = qwaves(j+1) - swaves(j);
+        if abs(midWaveLen - (lwaveLen + rwaveLen))>5
+            error('qs查找错误');
+        end
+    end
+end
 dataNumber = 102;
 [waveData, ~] = loadDatFile(dataNumber);
 [rrNumber, ~, ~] = loadRRFile(dataNumber);

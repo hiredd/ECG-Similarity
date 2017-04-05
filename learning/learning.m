@@ -2,7 +2,7 @@ loadGlobleVariable;
 %% Load Data for Classification
 if ~exist('X','var')
     if ~exist('tampletWaves', 'var')
-        loadTampletWaves();
+        loadTampletWaves;
     end
     X = zeros(0, 5*NumOfRRType);
     Y = cell(0, 1);

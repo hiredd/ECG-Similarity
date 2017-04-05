@@ -34,12 +34,12 @@ for i =1:length(AllFileNumber)
     end
 end
 %% 防止模版不完整
-for i=1:NumOfRRType
-    for j=2:NumOfTamplet
-        if isempty(tampletWaves{i, (j-1)*3+1})
-            tampletWaves{i, (j-1)*3+1} = tampletWaves{i, (j-2)*3+1};
-            tampletWaves{i, (j-1)*3+2} = tampletWaves{i, (j-2)*3+1};
-            tampletWaves{i, (j-1)*3+3} = tampletWaves{i, (j-2)*3+3};
-        end
-    end
-end
+% for i=1:NumOfRRType
+%     for j=2:NumOfTamplet
+%         if isempty(tampletWaves{i, (j-1)*3+1})
+%             tampletWaves{i, (j-1)*3+1} = tampletWaves{i, (j-2)*3+1};
+%             tampletWaves{i, (j-1)*3+2} = tampletWaves{i, (j-2)*3+1};
+%             tampletWaves{i, (j-1)*3+3} = tampletWaves{i, (j-2)*3+3};
+%         end
+%     end
+% end
