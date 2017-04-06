@@ -58,13 +58,11 @@ trainX = zeros(0, 5*NumOfRRType);
 trainY = cell(0, 1);
 for i = 1 : NumOfRRType
     x = gatheredX{i};
-    y = gatheredY{i};
     numOfX = length(x(:, 1));
     if numOfX>NumOfTrainData
-        numOfTrainX = NumOfTrainData;
+        numOfTrain
+        trainX = [trainX; x(1:NumOfTrainData, :)];
     else
-        numOfTrainX = ceil(numOfX*(1-PercentageOfTestData));
+        trainX = [trainX; x(1:numOfX*PercentageOfTestData, :)];
     end
-    trainX = [trainX; x(1:numOfTrainX, :)];
-    trainY = [trainY; y(1:numOfTrainX)];
 end
