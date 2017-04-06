@@ -28,3 +28,6 @@ NumOfTamplet = 10;
 
 global NumOfTrainData;
 NumOfTrainData = 2000;
+
+global PercentageOfTestData;
+PercentageOfTestData = 0.3;
