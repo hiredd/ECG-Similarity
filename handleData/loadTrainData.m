@@ -11,8 +11,8 @@ if ~exist('allX','var')
     %为了能让获取特征的过程能够以多线程方式执行，先把所有的数据都存储到一个cell矩阵的不同列中
     Features = cell(numOfFile, 1);
     Classes = cell(numOfFile, 1);
-    for i = 1 : NumOfRRType%
-        [features, classes] = getFeaturesAndClasses(AllFileNumber(i), tampletWaves);
+    parfor i = 1 : NumOfRRType%
+        [features, classes] = getFeaturesAndClasses(AllFileNumber(i), tampletWaves, NumOfRRType, NumOfTamplet, AllRRType);
         Features{i} = features;
         Classes{i} = classes;
     end
