@@ -1,11 +1,9 @@
-function [ features, classes ] = getFeaturesAndClasses( dataNumber, tampletWaves)
+function [ features, classes ] = getFeaturesAndClasses( dataNumber, tampletWaves, NumOfRRType, NumOfTamplet, AllRRType)
 % 得到一个波形文件的特征以及类别
 [rrNumber, rrType, ~] = loadRRFile(dataNumber);
 [waveData, ~] = loadDatFile(dataNumber);
 [qwaves, swaves] = findQS(rrNumber, waveData);
 classes = rrType(2 : length(rrType)- 1)';
-global NumOfRRType;
-global NumOfTamplet;
 % 特征为每种类别的波形5个特征，3个为dtw，2个为长度
 features = zeros(length(rrNumber)-2, NumOfRRType*5);
 display(['特征获取中...  文件号： ' num2str(dataNumber)]);
@@ -29,7 +27,6 @@ for i =2:(length(rrNumber)-1)
     end
 end
 %% 过滤掉不使用的类别
-global AllRRType;
 i = 1;
 while i <= length(classes)
     typeVal = char(classes(i));

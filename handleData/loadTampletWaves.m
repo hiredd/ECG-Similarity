@@ -3,7 +3,7 @@ tampletWaves = cell(NumOfRRType, 3*NumOfTamplet);
 getTampletWaveCntEveryFile;
 curCnt = zeros(length(AllFileNumber), NumOfRRType);
 tampletWavesIndex = ones(NumOfRRType, 1);
-for i =1:length(AllFileNumber) 
+for i =1:length(AllFileNumber)
     display(['获取模版 第' num2str(i) '个文件查找中...']);
     hasFindAll = 1;
     for j = 1:NumOfRRType
@@ -18,6 +18,9 @@ for i =1:length(AllFileNumber)
     [rrNumber, rrType, ~] = loadRRFile(AllFileNumber(i));
     [waveData, ~] = loadDatFile(AllFileNumber(i));
     [qwaves, swaves] = findQS(rrNumber, waveData);
+    p = randperm(length(rrNumber));
+    rrNumber = rrNumber(p);
+    rrType = rrType(p);
     for j=3: length(rrType)-2
         if isStrMatrixContain(AllRRType, char(rrType(j)))
             for k =1:NumOfRRType
@@ -33,13 +36,3 @@ for i =1:length(AllFileNumber)
         end
     end
 end
-%% 防止模版不完整
-% for i=1:NumOfRRType
-%     for j=2:NumOfTamplet
-%         if isempty(tampletWaves{i, (j-1)*3+1})
-%             tampletWaves{i, (j-1)*3+1} = tampletWaves{i, (j-2)*3+1};
-%             tampletWaves{i, (j-1)*3+2} = tampletWaves{i, (j-2)*3+1};
-%             tampletWaves{i, (j-1)*3+3} = tampletWaves{i, (j-2)*3+3};
-%         end
-%     end
-% end

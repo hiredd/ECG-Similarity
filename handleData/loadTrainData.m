@@ -12,7 +12,7 @@ if ~exist('allX','var')
     Features = cell(numOfFile, 1);
     Classes = cell(numOfFile, 1);
     parfor i = 1 : NumOfRRType%
-        [features, classes] = getFeaturesAndClasses(AllFileNumber(i), tampletWaves);
+        [features, classes] = getFeaturesAndClasses(AllFileNumber(i), tampletWaves, NumOfRRType, NumOfTamplet, AllRRType);
         Features{i} = features;
         Classes{i} = classes;
     end
