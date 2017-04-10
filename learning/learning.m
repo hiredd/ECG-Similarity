@@ -4,14 +4,14 @@ if ~exist('RF', 'var')
     % Classification Tree is chosen as the learner
     mdl = ClassificationTree.template('NVarToSample','all');
     % Use Bagged Decision Trees to Classify the Data
-    RF = fitensemble(trainX,trainY,'Bag',150,mdl,'type','classification');
+    RF = fitensemble(allTrainFeatures,allTrainClasses,'Bag',150,mdl,'type','classification');
 end
 %% Predict Responses Using Both Approaches
 allAccurency = cell(length(AllFileNumber), 1);
 allLearningResult = cell(length(AllFileNumber), 1);
 for i = 1 : length(AllFileNumber)
-    features =  Features{i};
-    classes = Classes{i};
+    features =  testFeatures{i};
+    classes = testClasses{i};
     y_pred = predict(RF,features);
     [confmat,order] = confusionmat(classes,y_pred);
     learningResult = zeros(length(confmat), 3);
