@@ -24,7 +24,7 @@ AllFileNumber = [AllFileNumber, 228:228];
 AllFileNumber = [AllFileNumber, 230:234];
 
 global NumOfTamplet;
-NumOfTamplet = 10;
+NumOfTamplet = 20;
 
 global NumOfTrainData;
 NumOfTrainData = 2000;
