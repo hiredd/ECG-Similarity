@@ -1,8 +1,7 @@
-fileNumber = getAllFileNumber();
 %% 类别计数
 rrTypeMap = containers.Map();
-for i =1:length(fileNumber)
-   [rrNumber, rrType, rrintervalTime] = loadRRFile(fileNumber(i));
+for i =1:length(AllFileNumber)
+   [rrNumber, rrType, rrintervalTime] = loadRRFile(AllFileNumber(i));
     for j=1:length(rrType)
         rrTypeVal = rrType(j);
         rrTypeVal = char(rrTypeVal);
@@ -30,8 +29,8 @@ resultMatrixY = cell2mat(resultMatrixY);
 
 %% 分析rr间隔
 allIntervalTime = zeros(100, 1);
-for i=1:length(fileNumber)
-    [rrNumber, rrType, rrintervalTime] = loadRRFile(fileNumber(i));
+for i=1:length(AllFileNumber)
+    [rrNumber, rrType, rrintervalTime] = loadRRFile(AllFileNumber(i));
     for j=2:length(rrNumber)-1
         index = ceil(rrintervalTime(j)*10);
         cnt = allIntervalTime(index) + 1;
